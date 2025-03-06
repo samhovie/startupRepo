@@ -1,0 +1,21 @@
+gnore sensitive files
+wp-config.php
+wp-config-sample.php
+
+# Ignore cache, uploads, and temporary files
+wp-content/uploads/
+wp-content/cache/
+wp-content/upgrade/
+wp-content/debug.log
+
+# Ignore WordPress core files (optional)
+wp-admin/
+wp-includes/
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+*.log
+*.sql
+*.tar.gz
+
