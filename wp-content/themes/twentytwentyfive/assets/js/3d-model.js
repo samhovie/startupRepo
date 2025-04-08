@@ -1,73 +1,100 @@
 let scene, camera, renderer, composer;
 let galaxy, galaxyCenterLight;
 let starTexture;
-let zoomedIn = false; // Track if zoom has completed
+let zoomedIn = false;
 let mouseX = 0, mouseY = 0;
-let targetRotationX = 0, targetRotationY = 0; // Target rotations for smooth transition
-let currentRotationX = 0, currentRotationY = 0; // Current rotation values to interpolate from
+let targetRotationX = 0, targetRotationY = 0;
+let currentRotationX = 0, currentRotationY = 0;
+let isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
 init();
 animate();
 
-const findPoints = (object) => {
+function findPoints(object) {
     if (object.isPoints) return object;
     for (let child of object.children) {
         const points = findPoints(child);
         if (points) return points;
     }
     return null;
-};
+}
 
 function init() {
-    // Scene setup
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    // camera.position.set(0, 0, 3);
-    camera.position.set(0, -1, 4);  // Camera moved lower
+    camera.position.set(0, -1, 4);
 
-    // Select the predefined canvas by ID
     const canvas = document.getElementById('modelCanvas');
     renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+    composer = new THREE.EffectComposer(renderer);
 
-    // Set the canvas height to 120vh (or whatever desired height)
-    canvas.height = window.innerHeight * 2;  // 120% of the viewport height
-    canvas.width = window.innerWidth;  // Full width
+    // Set canvas size AFTER renderer/composer are initialized
+    updateCanvasSize();
 
+    // Add passes
+    composer.addPass(new THREE.RenderPass(scene, camera));
+    const bloomPass = new THREE.UnrealBloomPass(
+        new THREE.Vector2(window.innerWidth, window.innerHeight),
+        2,
+        0.225,
+        0.001
+    );
+    composer.addPass(bloomPass);
 
-    // Set the renderer size to match the updated canvas size
-    renderer.setSize(canvas.width, canvas.height);
-
-    // Lighting
     galaxyCenterLight = new THREE.PointLight(0xffffff, 0.5);
     scene.add(galaxyCenterLight);
 
-    // Load model
     const loader = new THREE.GLTFLoader();
     loader.load('/wp-content/themes/twentytwentyfive/assets/js/scene.gltf', (gltf) => {
         galaxy = gltf.scene;
-        galaxy.rotation.x = Math.PI / 6; // 30-degree tilt
+        galaxy.rotation.x = Math.PI / 6;
         scene.add(galaxy);
         processGalaxy(gltf);
-
-
-
     });
 
-    // Post-processing
-    composer = new THREE.EffectComposer(renderer);
-    composer.addPass(new THREE.RenderPass(scene, camera));
-
-    const bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 2, 0.225, 0.001);
-    composer.addPass(bloomPass);
-
-    // Resize handling
     window.addEventListener('resize', onWindowResize);
-    window.addEventListener('mousemove', onMouseMove);
+    if (!isMobile) {
+        window.addEventListener('mousemove', onMouseMove);
+    }
+}
+
+function updateCanvasSize() {
+    const canvas = document.getElementById('modelCanvas');
+    const width = window.innerWidth;
+
+    // More reliable height that accounts for mobile browser UI
+    const height = document.documentElement.clientHeight;
+
+    // Add a buffer just in case
+    const canvasHeight = height * 2 + 60;
+
+    canvas.width = width;
+    canvas.height = canvasHeight;
+
+    if (renderer && composer) {
+        renderer.setSize(width, canvasHeight);
+        composer.setSize(width, canvasHeight);
+    }
+}
+
+
+function onWindowResize() {
+    // Update camera aspect ratio and canvas size when the window is resized
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    updateCanvasSize();
+}
+
+function onMouseMove(event) {
+    mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+    mouseY = (event.clientY / window.innerHeight) * 2 - 1;
+
+    targetRotationX = mouseX * 0.2;
+    targetRotationY = -mouseY * 0.1;
 }
 
 function processGalaxy(gltf) {
     const points = findPoints(gltf.scene);
-
     if (!points) {
         console.error("No Points object found in the model!");
         return;
@@ -86,7 +113,6 @@ function processGalaxy(gltf) {
         const x = positions[i], y = positions[i + 1], z = positions[i + 2];
         const distance = Math.sqrt(x * x + y * y + z * z) / 100;
 
-        // Coloring closer to R3F version
         color.setRGB(
             Math.cos(distance),
             Math.random() * 0.8,
@@ -99,7 +125,7 @@ function processGalaxy(gltf) {
     geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
     const starMaterial = new THREE.PointsMaterial({
-        size: 0.00, // Closer to the R3F version
+        size: 0.00,
         map: starTexture,
         vertexColors: true,
         transparent: true,
@@ -111,49 +137,21 @@ function processGalaxy(gltf) {
     scene.add(stars);
 }
 
-function onWindowResize() {
-    // Update camera aspect ratio and projection matrix
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-
-    // Update canvas size
-    const canvas = document.getElementById('modelCanvas');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight * 1.2;  // 120% of the viewport height
-
-    // Update renderer size
-    renderer.setSize(canvas.width, canvas.height);
-    composer.setSize(canvas.width, canvas.height);
-}
-
-function onMouseMove(event) {
-    // Normalize mouse position
-    mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-    mouseY = (event.clientY / window.innerHeight) * 2 - 1;
-
-    // Set target rotation based on mouse position
-    targetRotationX = mouseX * 0.2; // Adjust for subtle effect
-    targetRotationY = -mouseY * 0.1;
-}
-
 function animate() {
     requestAnimationFrame(animate);
 
     if (galaxy) {
         if (!zoomedIn) {
-            // Perform initial zoom effect
             galaxy.scale.lerp(new THREE.Vector3(2.7, 2.7, 2.7), 0.02);
-            if (galaxy.scale.x >= 2.69) {
-                zoomedIn = true; // Stop zooming after reaching target
-            }
-        } else {
-            // Smooth transition from current rotation to target rotation
-            currentRotationX += (targetRotationX - currentRotationX) * 0.1; // Smooth interpolation
+            if (galaxy.scale.x >= 2.69) zoomedIn = true;
+        } else if (!isMobile) {
+            currentRotationX += (targetRotationX - currentRotationX) * 0.1;
             currentRotationY += (targetRotationY - currentRotationY) * 0.1;
-
-            // Apply the smooth rotation to the galaxy
             galaxy.rotation.y = currentRotationX;
             galaxy.rotation.x = Math.PI / 6 + currentRotationY;
+        } else {
+            // Mobile: Adjust scale if necessary to fit the screen properly
+            galaxy.scale.lerp(new THREE.Vector3(1.5, 1.5, 1.5), 0.02);
         }
     }
 

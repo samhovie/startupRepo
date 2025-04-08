@@ -1,146 +1,86 @@
-/*
-Theme Name: Twenty Twenty-Five
-Theme URI: https://wordpress.org/themes/twentytwentyfive/
-Author: the WordPress team
-Author URI: https://wordpress.org
-Description: Twenty Twenty-Five emphasizes simplicity and adaptability. It offers flexible design options, supported by a variety of patterns for different page types, such as services and landing pages, making it ideal for building personal blogs, professional portfolios, online magazines, or business websites. Its templates cater to various blog styles, from text-focused to image-heavy layouts. Additionally, it supports international typography and diverse color palettes, ensuring accessibility and customization for users worldwide.
-Requires at least: 6.7
-Tested up to: 6.7
-Requires PHP: 7.2
-Version: 1.0
-License: GNU General Public License v2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Text Domain: twentytwentyfive
-Tags: one-column, custom-colors, custom-menu, custom-logo, editor-style, featured-images, full-site-editing, block-patterns, rtl-language-support, sticky-post, threaded-comments, translation-ready, wide-blocks, block-styles, style-variations, accessibility-ready, blog, portfolio, news
-*/
-
-/*
- * Link styles
- * https://github.com/WordPress/gutenberg/issues/42319
- */
- /* 1. Use a more-intuitive box-sizing model */
+/* 1. Reset body margin and padding, and set up full height for body */
 *, *::before, *::after {
   box-sizing: border-box;
 }
 
-/* 2. Remove default margin */
-* {
+body {
   margin: 0;
-}
-
-body {
-  /* 3. Add accessible line-height */
+  padding: 0;
   line-height: 1.5;
-  /* 4. Improve text rendering */
-  -webkit-font-smoothing: antialiased;
+  font-family: Arial, sans-serif;
+  background-color: #000000; /* Background color */
+  color: #ffffff; /* Text color */
+  height: 100%;  /* Full viewport height */
+  overflow-x: hidden;  /* Prevent horizontal scrolling */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
-/* 5. Improve media defaults */
-img, picture, video, canvas, svg {
-  display: block;
-  max-width: 100%;
-}
-
-/* 6. Inherit fonts for form controls */
-input, button, textarea, select {
-  font: inherit;
-}
-
-/* 7. Avoid text overflows */
-p, h1, h2, h3, h4, h5, h6 {
-  overflow-wrap: break-word;
-}
-
-/*
-  9. Create a root stacking context
-*/
-#root, #__next {
-  isolation: isolate;
-}
-
-a {
-	text-decoration-thickness: 1px !important;
-	text-underline-offset: .1em;
-}
-
-/* Focus styles */
-:where(.wp-site-blocks *:focus) {
-	outline-width: 2px;
-	outline-style: solid;
-}
-
-/* Increase the bottom margin on submenus, so that the outline is visible. */
-.wp-block-navigation .wp-block-navigation-submenu .wp-block-navigation-item:not(:last-child) {
-	margin-bottom: 3px;
-}
-
-/* Increase the outline offset on the parent menu items, so that the outline does not touch the text. */
-.wp-block-navigation .wp-block-navigation-item .wp-block-navigation-item__content {
-	outline-offset: 4px;
-}
-
-/* Remove outline offset from the submenus, otherwise the outline is visible outside the submenu container. */
-.wp-block-navigation .wp-block-navigation-item ul.wp-block-navigation__submenu-container .wp-block-navigation-item__content {
-	outline-offset: 0;
-}
-
-/*
- * Progressive enhancement to reduce widows and orphans
- * https://github.com/WordPress/gutenberg/issues/55190
- */
-h1, h2, h3, h4, h5, h6, blockquote, caption, figcaption, p {
-	text-wrap: pretty;
-}
-
-/*
- * Change the position of the more block on the front, by making it a block level element.
- * https://github.com/WordPress/gutenberg/issues/65934
-*/
-.more-link {
-	display: block;
-}
-
-body {
-	background-color: #000000;
-	color: #ffffff;
-}
-.nav {
-	position: fixed;
-}
-
-/* #modelCanvas {
-  display: block;
-  width: 100vw;
-  height: calc(100vh + 20%);
-  z-index: -1;
-} */
-
-/* Set up canvas behind everything */
+/* 2. Model Canvas Styling */
 #modelCanvas {
-  position: absolute;
+  position: absolute;  /* Keep the canvas on top of other content */
+  top: 0;              /* Align to the top of the page */
+  left: 0;             /* Align to the left of the page */
+  width: 100vw;        /* Full width of the viewport */
+  height: 200vh;       /* 2x viewport height for the model */
+  z-index: -1;         /* Place it behind other content */
+  touch-action: none;  /* Disable touch interaction */
+  pointer-events: none; /* Disable canvas interaction */
+  overscroll-behavior: none; /* Prevent canvas from moving on scroll */
+}
+
+/* 3. Navigation Styling */
+nav {
+  position: absolute;   /* Position navigation on top of the model */
   top: 0;
   left: 0;
   width: 100%;
-  height: 200%;  /* Ensure canvas fills the viewport and a bit more */
-  z-index: -1;  /* Put the canvas behind everything else */
-}
-
-/* Ensure content flows normally */
-.content {
-  position: relative;
-  z-index: 0;  /* Ensure content is above the canvas */
-}
-
-/* Style the footer */
-footer {
-  position: absolute;  /* Normal flow, will scroll with the page */
-  bottom: -100vh;
-  width: 100%;
-  z-index: 1;  /* Ensure footer is above canvas */
-  background-color: rgba(0, 0, 0, 0.0);  /* Optional: Add a background color */
-  color: white;     /* Optional: Set text color for visibility */
-  padding: 20px;    /* Optional: Add some padding */
+  z-index: 1;           /* Ensure nav is above the canvas */
+  background: rgba(0, 0, 0, 0.5); /* Transparent background */
+  padding: 20px;
   text-align: center;
-  margin-top: 20px;  /* Optional: Add space between footer and last content */
-  margin-bottom: 0;  /* Footer should be at the bottom */
+  color: white;
+  font-size: 20px;
+}
+
+/* 4. Footer Styling */
+footer {
+  position: absolute;
+  bottom: -100vh;
+  z-index: 1; /* Ensure footer is above the canvas */
+  background-color: rgba(0, 0, 0, 0); /* Footer background color */
+  color: white;
+  padding: 20px;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 0;
+  flex-shrink: 0;
+  width: 100%;
+}
+
+/* 5. Content Wrapper */
+.content-wrapper {
+  position: relative;
+  z-index: 0;
+  overflow-y: auto;  /* Enable scrolling */
+  height: 100vh; /* Ensure it takes up the full viewport height */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 6. Ensure scrolling works */
+html, body {
+  display: block;
+  height: 100%;
+  overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto; /* Enable vertical scrolling */
+  position: relative;
 }
