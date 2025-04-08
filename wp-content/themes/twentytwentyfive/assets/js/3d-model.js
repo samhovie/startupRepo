@@ -53,30 +53,43 @@ function init() {
     });
 
     window.addEventListener('resize', onWindowResize);
-    if (!isMobile) {
-        window.addEventListener('mousemove', onMouseMove);
-    }
+    // if (!isMobile) {
+    //     window.addEventListener('mousemove', onMouseMove);
+    // }
 }
 
 function updateCanvasSize() {
     const canvas = document.getElementById('modelCanvas');
-    const width = window.innerWidth;
-    const height = window.innerHeight;
 
-    // Check if it's mobile
-    if (isMobile) {
-        // Set a fixed height on mobile
-        canvas.height = height * 2; // This will be 2x the viewport height for mobile
-    } else {
-        // For desktop, keep the dynamic height (200vh)
-        canvas.height = height * 2;
-    }
+
+    // More reliable height that accounts for mobile browser UI
+    const height = document.documentElement.clientHeight;
+    const width = document.documentElement.clientWidth;
+
+    // Add a buffer just in case
+    const canvasHeight = height * 2;
+
+    canvas.width = width;
+    canvas.height = canvasHeight;
 
     if (renderer && composer) {
         renderer.setSize(width, canvas.height);  // Use canvas.height instead of 200vh for resizing
         composer.setSize(width, canvas.height);
     }
 }
+
+// function updateCanvasSize() {
+//     if (canvas.width != canvas.clientWidth ||
+//        canvas.height != canvas.clientHeight) {
+
+//       canvas.width = canvas.clientWidth;
+//       canvas.height = canvas.clientHeight;
+//       gl.viewport(0, 0, canvas.width, canvas.height);
+//     }
+
+
+//   }
+
 
 function onWindowResize() {
     // Update camera aspect ratio and canvas size when the window is resized
