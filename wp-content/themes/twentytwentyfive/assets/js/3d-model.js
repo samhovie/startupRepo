@@ -61,22 +61,22 @@ function init() {
 function updateCanvasSize() {
     const canvas = document.getElementById('modelCanvas');
     const width = window.innerWidth;
+    const height = window.innerHeight;
 
-    // More reliable height that accounts for mobile browser UI
-    const height = document.documentElement.clientHeight;
-
-    // Add a buffer just in case
-    const canvasHeight = height * 2 + 60;
-
-    canvas.width = width;
-    canvas.height = canvasHeight;
+    // Check if it's mobile
+    if (isMobile) {
+        // Set a fixed height on mobile
+        canvas.height = height * 2; // This will be 2x the viewport height for mobile
+    } else {
+        // For desktop, keep the dynamic height (200vh)
+        canvas.height = height * 2;
+    }
 
     if (renderer && composer) {
-        renderer.setSize(width, canvasHeight);
-        composer.setSize(width, canvasHeight);
+        renderer.setSize(width, canvas.height);  // Use canvas.height instead of 200vh for resizing
+        composer.setSize(width, canvas.height);
     }
 }
-
 
 function onWindowResize() {
     // Update camera aspect ratio and canvas size when the window is resized
