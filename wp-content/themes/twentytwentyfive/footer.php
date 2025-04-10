@@ -1,12 +1,11 @@
-<footer id="footer" class="site-footer">
+<!-- <footer id="footer" class="site-footer">
 
-<!-- <div class="footer-content">
-        </div> -->
+
 
          <div class="footer-bottom">
-            <p>&copy; <?php echo date("Y"); ?> EthereaWeb. All Rights Reserved.</p>
+            <p>&copy; <php echo date("Y"); ?> EthereaWeb. All Rights Reserved.</p>
     </div>
-</footer>
+</footer> -->
 
 <?php wp_footer(); ?>
 

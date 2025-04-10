@@ -22,8 +22,8 @@ function findPoints(object) {
 function init() {
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(0, -1, 4);
-
+    camera.position.set(0, -1.5, 4);
+    if (isMobile) camera.position.set(0, -1.5, 5)
     const canvas = document.getElementById('modelCanvas');
     renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
     composer = new THREE.EffectComposer(renderer);
@@ -35,13 +35,14 @@ function init() {
     composer.addPass(new THREE.RenderPass(scene, camera));
     const bloomPass = new THREE.UnrealBloomPass(
         new THREE.Vector2(window.innerWidth, window.innerHeight),
-        2,
+        2.5,
         0.225,
         0.001
     );
+    // if(isMobile) bloomPass.strength = 1.8
     composer.addPass(bloomPass);
 
-    galaxyCenterLight = new THREE.PointLight(0xffffff, 0.5);
+    galaxyCenterLight = new THREE.PointLight(0xffffff, 2);
     scene.add(galaxyCenterLight);
 
     const loader = new THREE.GLTFLoader();
@@ -52,59 +53,130 @@ function init() {
         processGalaxy(gltf);
     });
 
+    if (isMobile) {
+        // iOS 13+ and some Androids require user interaction to grant permission
+        if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+            const button = document.createElement('button');
+            button.innerText = "Enable Motion";
+            button.style.position = 'absolute';
+            button.style.top = '50%';
+            button.style.left = '50%';
+            button.style.transform = 'translate(-50%, -50%)';
+            button.style.padding = '1.5em 2.5em';
+            button.style.fontSize = '1.2em';
+            button.style.zIndex = 9999;
+            document.body.appendChild(button);
+
+            button.addEventListener('click', () => {
+                DeviceOrientationEvent.requestPermission()
+                    .then(permissionState => {
+                        if (permissionState === 'granted') {
+                            window.addEventListener('deviceorientation', onDeviceOrientation);
+                            button.remove();
+                        }
+                        else {
+                            button.innerText = "Permission Denied";
+                            // button.remove();
+                        }
+                    })
+                    .catch(console.error);
+            });
+        } else {
+            // Older Android or already allowed
+            window.addEventListener('deviceorientation', onDeviceOrientation);
+        }
+    }
+
     window.addEventListener('resize', onWindowResize);
-    // if (!isMobile) {
-    //     window.addEventListener('mousemove', onMouseMove);
+    if (!isMobile) {
+        window.addEventListener('mousemove', onMouseMove);
+    }
+    // else {
+    //     window.addEventListener('deviceorientation', onDeviceOrientation);
     // }
+
 }
 
 function updateCanvasSize() {
-    const canvas = document.getElementById('modelCanvas');
-
-
-    // More reliable height that accounts for mobile browser UI
-    const height = document.documentElement.clientHeight;
-    const width = document.documentElement.clientWidth;
-
-    // Add a buffer just in case
-    const canvasHeight = height * 2;
-
-    canvas.width = width;
-    canvas.height = canvasHeight;
+    // const canvas = document.getElementById('modelCanvas');
+    const width = window.innerWidth;
+    const height = window.innerHeight * 2;
 
     if (renderer && composer) {
-        renderer.setSize(width, canvas.height);  // Use canvas.height instead of 200vh for resizing
-        composer.setSize(width, canvas.height);
+        renderer.setSize(width, height);
+        composer.setSize(width, height);
     }
+
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
 }
 
-// function updateCanvasSize() {
-//     if (canvas.width != canvas.clientWidth ||
-//        canvas.height != canvas.clientHeight) {
-
-//       canvas.width = canvas.clientWidth;
-//       canvas.height = canvas.clientHeight;
-//       gl.viewport(0, 0, canvas.width, canvas.height);
-//     }
-
-
-//   }
-
-
 function onWindowResize() {
-    // Update camera aspect ratio and canvas size when the window is resized
+    if (isMobile) return;
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     updateCanvasSize();
 }
 
+// function onMouseMove(event) {
+//     mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+//     mouseY = (event.clientY / window.innerHeight) * 2 - 1;
+
+//     targetRotationX = mouseX * 0.2;
+//     targetRotationY = -mouseY * 0.1;
+// }
+
+// function onMouseMove(event) {
+//     mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+//     mouseY = (event.clientY / window.innerHeight) * 2 - 1;
+
+//     targetRotationX = mouseX;       // horizontal influence
+//     targetRotationY = -mouseY;      // vertical influence (inverted feels more natural)
+// }
+
+// function onDeviceOrientation(event) {
+//     const gamma = event.gamma || 0; // left to right (-90 to 90)
+//     const beta = event.beta || 0;   // front to back (-180 to 180)
+
+//     // Normalize gamma and beta to values between -1 and 1
+//     const normGamma = gamma / 45;  // reasonable range is -45 to 45
+//     const normBeta = (beta - 45) / 45; // adjust center tilt
+
+//     targetRotationX = normGamma * 0.2;
+//     targetRotationY = -normBeta * 0.1;
+// }
+
+// function onDeviceOrientation(event) {
+//     const gamma = event.gamma || 0;
+//     const beta = event.beta || 0;
+
+//     const normGamma = gamma / 45;
+//     const normBeta = (beta - 45) / 45;
+
+//     targetRotationX = normGamma;
+//     targetRotationY = -normBeta;
+// }
+
+
 function onMouseMove(event) {
     mouseX = (event.clientX / window.innerWidth) * 2 - 1;
     mouseY = (event.clientY / window.innerHeight) * 2 - 1;
 
-    targetRotationX = mouseX * 0.2;
-    targetRotationY = -mouseY * 0.1;
+    targetRotationX = mouseX;        // affects speed only slightly
+    targetRotationY = -mouseY;       // more noticeable tilt
 }
+
+function onDeviceOrientation(event) {
+    const gamma = event.gamma || 0;
+    const beta = event.beta || 0;
+
+    const normGamma = gamma / 45;
+    const normBeta = (beta - 45) / 45;
+
+    targetRotationX = normGamma;
+    targetRotationY = -normBeta;
+}
+
 
 function processGalaxy(gltf) {
     const points = findPoints(gltf.scene);
@@ -139,7 +211,6 @@ function processGalaxy(gltf) {
 
     const starMaterial = new THREE.PointsMaterial({
         size: 0.00,
-        map: starTexture,
         vertexColors: true,
         transparent: true,
         opacity: 0.4,
@@ -150,22 +221,59 @@ function processGalaxy(gltf) {
     scene.add(stars);
 }
 
+let baseRotationSpeed = 0.0005;
+let speedInfluence = 0;
+let tiltInfluence = 0;
+
 function animate() {
+    // requestAnimationFrame(animate);
+
+    // if (galaxy) {
+    //     if (!zoomedIn) {
+    //     // if (!zoomedIn && !isMobile) {
+    //         galaxy.scale.lerp(new THREE.Vector3(2.7, 2.7, 2.7), 0.02);
+    //         if (galaxy.scale.x >= 2.69) zoomedIn = true;
+    //     } else if (!isMobile) {
+    //         currentRotationX += (targetRotationX - currentRotationX) * 0.1;
+    //         currentRotationY += (targetRotationY - currentRotationY) * 0.1;
+    //         galaxy.rotation.y = currentRotationX;
+    //         galaxy.rotation.x = Math.PI / 6 + currentRotationY;
+    //     } else {
+    //         // Mobile: Do not change galaxy scale or position on zoom
+    //     }
+    // }
+
+    // if (galaxy) {
+    //     if (!zoomedIn) {
+    //         galaxy.scale.lerp(new THREE.Vector3(2.7, 2.7, 2.7), 0.02);
+    //         if (galaxy.scale.x >= 2.69) zoomedIn = true;
+    //     } else {
+    //         // This works for both mobile and desktop now
+    //         currentRotationX += (targetRotationX - currentRotationX) * 0.1;
+    //         currentRotationY += (targetRotationY - currentRotationY) * 0.1;
+    //         galaxy.rotation.y = currentRotationX;
+    //         galaxy.rotation.x = Math.PI / 6 + currentRotationY;
+    //     }
+    // }
+
+    // composer.render();
     requestAnimationFrame(animate);
 
     if (galaxy) {
-        if (!zoomedIn) {
-            galaxy.scale.lerp(new THREE.Vector3(2.7, 2.7, 2.7), 0.02);
-            if (galaxy.scale.x >= 2.69) zoomedIn = true;
-        } else if (!isMobile) {
-            currentRotationX += (targetRotationX - currentRotationX) * 0.1;
-            currentRotationY += (targetRotationY - currentRotationY) * 0.1;
-            galaxy.rotation.y = currentRotationX;
-            galaxy.rotation.x = Math.PI / 6 + currentRotationY;
-        } else {
-            // Mobile: Adjust scale if necessary to fit the screen properly
-            galaxy.scale.lerp(new THREE.Vector3(1.5, 1.5, 1.5), 0.02);
-        }
+        // Smooth damping
+        // speedInfluence += (targetRotationX - speedInfluence) * 0.05;
+        speedInfluence += (targetRotationX - speedInfluence) * 0.14;
+        // speedInfluence = Math.max(Math.min(speedInfluence, 1), -1);
+        tiltInfluence += (targetRotationY - tiltInfluence) * 0.05;
+
+        // Horizontal input affects speed a bit — but can't stop rotation
+        let adjustedSpeed = baseRotationSpeed + speedInfluence * 0.0003;
+
+        // Apply constant + influenced rotation
+        galaxy.rotation.y += adjustedSpeed;
+
+        // Vertical input affects tilt (X axis)
+        galaxy.rotation.x = Math.PI / 6 + tiltInfluence * 0.08; // more up/down influence
     }
 
     composer.render();
