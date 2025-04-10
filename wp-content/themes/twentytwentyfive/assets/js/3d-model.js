@@ -26,9 +26,9 @@ function init() {
     // camera.rotation.set(-Math.PI / 3, 0, 0);
     // camera.lookAt(0, 0, 0)
 
-    camera.position.set(0, -.5, 4);  // Move the camera higher on the Y-axis
+    camera.position.set(0, -.5, 3);  // Move the camera higher on the Y-axis
     camera.rotation.set(-Math.PI / 6, 0, 0);  // Adjust the rotation angle
-    camera.lookAt(0, -1.5, 0);
+    camera.lookAt(0, -1.2, 0);
     const canvas = document.getElementById('modelCanvas');
     renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
     composer = new THREE.EffectComposer(renderer);
