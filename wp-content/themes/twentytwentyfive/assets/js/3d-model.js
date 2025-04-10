@@ -22,8 +22,13 @@ function findPoints(object) {
 function init() {
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(0, -1.5, 4);
-    if (isMobile) camera.position.set(0, -1.5, 5)
+    // camera.position.set(0, 0, 4);
+    // camera.rotation.set(-Math.PI / 3, 0, 0);
+    // camera.lookAt(0, 0, 0)
+
+    camera.position.set(0, -.5, 4);  // Move the camera higher on the Y-axis
+    camera.rotation.set(-Math.PI / 6, 0, 0);  // Adjust the rotation angle
+    camera.lookAt(0, -1.5, 0);
     const canvas = document.getElementById('modelCanvas');
     renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
     composer = new THREE.EffectComposer(renderer);
@@ -35,15 +40,15 @@ function init() {
     composer.addPass(new THREE.RenderPass(scene, camera));
     const bloomPass = new THREE.UnrealBloomPass(
         new THREE.Vector2(window.innerWidth, window.innerHeight),
-        2.5,
+        1.7,
         0.225,
         0.001
     );
     // if(isMobile) bloomPass.strength = 1.8
     composer.addPass(bloomPass);
 
-    galaxyCenterLight = new THREE.PointLight(0xffffff, 2);
-    scene.add(galaxyCenterLight);
+    // galaxyCenterLight = new THREE.PointLight(0xffffff, 1);
+    // scene.add(galaxyCenterLight);
 
     const loader = new THREE.GLTFLoader();
     loader.load('/wp-content/themes/twentytwentyfive/assets/js/scene.gltf', (gltf) => {
@@ -53,39 +58,39 @@ function init() {
         processGalaxy(gltf);
     });
 
-    if (isMobile) {
-        // iOS 13+ and some Androids require user interaction to grant permission
-        if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-            const button = document.createElement('button');
-            button.innerText = "Enable Motion";
-            button.style.position = 'absolute';
-            button.style.top = '50%';
-            button.style.left = '50%';
-            button.style.transform = 'translate(-50%, -50%)';
-            button.style.padding = '1.5em 2.5em';
-            button.style.fontSize = '1.2em';
-            button.style.zIndex = 9999;
-            document.body.appendChild(button);
+    // if (isMobile) {
+    //     // iOS 13+ and some Androids require user interaction to grant permission
+    //     if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+    //         const button = document.createElement('button');
+    //         button.innerText = "Enable Motion";
+    //         button.style.position = 'absolute';
+    //         button.style.top = '50%';
+    //         button.style.left = '50%';
+    //         button.style.transform = 'translate(-50%, -50%)';
+    //         button.style.padding = '1.5em 2.5em';
+    //         button.style.fontSize = '1.2em';
+    //         button.style.zIndex = 9999;
+    //         document.body.appendChild(button);
 
-            button.addEventListener('click', () => {
-                DeviceOrientationEvent.requestPermission()
-                    .then(permissionState => {
-                        if (permissionState === 'granted') {
-                            window.addEventListener('deviceorientation', onDeviceOrientation);
-                            button.remove();
-                        }
-                        else {
-                            button.innerText = "Permission Denied";
-                            // button.remove();
-                        }
-                    })
-                    .catch(console.error);
-            });
-        } else {
-            // Older Android or already allowed
-            window.addEventListener('deviceorientation', onDeviceOrientation);
-        }
-    }
+    //         button.addEventListener('click', () => {
+    //             DeviceOrientationEvent.requestPermission()
+    //                 .then(permissionState => {
+    //                     if (permissionState === 'granted') {
+    //                         window.addEventListener('deviceorientation', onDeviceOrientation);
+    //                         button.remove();
+    //                     }
+    //                     else {
+    //                         button.innerText = "Permission Denied";
+    //                         // button.remove();
+    //                     }
+    //                 })
+    //                 .catch(console.error);
+    //         });
+    //     } else {
+    //         // Older Android or already allowed
+    //         window.addEventListener('deviceorientation', onDeviceOrientation);
+    //     }
+    // }
 
     window.addEventListener('resize', onWindowResize);
     if (!isMobile) {
@@ -167,14 +172,15 @@ function onMouseMove(event) {
 }
 
 function onDeviceOrientation(event) {
-    const gamma = event.gamma || 0;
-    const beta = event.beta || 0;
+    const gamma = event.gamma || 0; // left to right (-90 to 90)
+    const beta = event.beta || 0;   // front to back (-180 to 180)
 
     const normGamma = gamma / 45;
     const normBeta = (beta - 45) / 45;
 
-    targetRotationX = normGamma;
-    targetRotationY = -normBeta;
+    // Increase these multipliers for more influence
+    targetRotationX = normGamma * 0.4; // ← was 0.2
+    targetRotationY = -normBeta * 0.15; // ← was 0.1
 }
 
 
