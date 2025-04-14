@@ -3,6 +3,12 @@
   box-sizing: border-box;
 }
 
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -10,11 +16,7 @@ body {
   font-family: Arial, sans-serif;
   background-color: #000000; /* Background color */
   color: #ffffff; /* Text color */
-  /* height: 100%; */
   overflow-x: hidden;  /* Prevent horizontal scrolling */
-  /* display: flex; */
-  /* flex-direction: column; */
-  /* justify-content: flex-start; */
 }
 
 /* 2. Model Canvas Styling */
@@ -23,15 +25,11 @@ body {
   top: 0;              /* Align to the top of the page */
   left: 0;             /* Align to the left of the page */
   width: 100vw;
-  /* height: 100vh; */
-  height: calc(var(--vh, 1vh) * 200);
+  height: calc(var(--vh, 1vh) * 150);
   z-index: -1;         /* Place it behind other content */
   touch-action: none;  /* Disable touch interaction */
   pointer-events: none; /* Disable canvas interaction */
   overscroll-behavior: none;
-  /* overflow-x: hidden; */
-  /* overflow: hidden; */
-  /* border: 5px solid red; */
 }
 
 /* @supports (height: 100dvh) {
@@ -78,28 +76,161 @@ footer p {
   position: relative;
   z-index: 1;
   overflow-y: auto;  /* Enable scrolling */
-  height: 100vh; /* Ensure it takes up the full viewport height */
+  height: 145vh; /* Ensure it takes up the full viewport height */
   display: flex;
   flex-direction: column;
   align-items: center;
+  /* border: 3px solid red; */
 }
 
-/* 6. Ensure scrolling works */
-/* html, body {
-  display: block;
-  overflow-x: hidden;
-} */
+@supports (height: 100dvh) {
+  .tagline-container {
+    height: 100dvh;
+  }
+}
 
-/* body {
+.tagline-container {
+  /* height: 100vh; */
+  position: absolute;
+  top: 55vh;
+  right: 2vw;
+  height: 20vh;
+  width: 50vw;
+  /* border: 1px solid red; */
+  text-align: center;
+
+  display: flex;               /* Use flexbox for centering */
+  justify-content: center;     /* Center horizontally */
+  align-items: center;
+  text-align: center;
+}
+
+.main-description-container {
+  position: absolute;
+  left: 10vw;
+  bottom: 10vh;
+  width: 45vw;
+  height: 40vh;
+  /* border: 1px solid red; */
+
   display: flex;
   flex-direction: column;
-  overflow-y: auto;
-  position: relative;
-} */
+  justify-content: center;     /* Center horizontally */
+  align-items: left;
+  text-align: left;
 
-html, body {
-  margin: 0;
-  padding: 0;
-  /* overflow: hidden; */
-  height: 100%;
+}
+
+.main-description {
+  font-size: 16px;
+}
+
+.main-description-title {
+
+}
+
+
+@font-face {
+  font-family: 'Envoyer';
+  src: url('fonts/Envoyer-Regular.woff2') format('woff2'),
+      url('fonts/Envoyer-Regular.woff') format('woff'),
+      url('fonts/Envoyer-Regular.svg#Envoyer-Regular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Envoyer-Outline';
+  src: url('fonts/Envoyer-Outline.woff2') format('woff2'),
+      url('fonts/Envoyer-Outline.woff') format('woff'),
+      url('fonts/Envoyer-Outline.svg#Envoyer-Outline') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+@font-face {
+  font-family: 'Turret Road';
+  src: url('fonts/TurretRoad-Medium.eot');
+  src: url('fonts/TurretRoad-Medium.eot?#iefix') format('embedded-opentype'),
+      url('fonts/TurretRoad-Medium.woff2') format('woff2'),
+      url('fonts/TurretRoad-Medium.woff') format('woff'),
+      url('fonts/TurretRoad-Medium.svg#TurretRoad-Medium') format('svg');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Turret Road';
+  src: url('fonts/TurretRoad-Regular.eot');
+  src: url('fonts/TurretRoad-Regular.eot?#iefix') format('embedded-opentype'),
+      url('fonts/TurretRoad-Regular.woff2') format('woff2'),
+      url('fonts/TurretRoad-Regular.woff') format('woff'),
+      url('fonts/TurretRoad-Regular.svg#TurretRoad-Regular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Turret Road';
+  src: url('fonts/TurretRoad-Bold.eot');
+  src: url('fonts/TurretRoad-Bold.eot?#iefix') format('embedded-opentype'),
+      url('fonts/TurretRoad-Bold.woff2') format('woff2'),
+      url('fonts/TurretRoad-Bold.woff') format('woff'),
+      url('fonts/TurretRoad-Bold.svg#TurretRoad-Bold') format('svg');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Turret Road';
+  src: url('fonts/TurretRoad-ExtraLight.eot');
+  src: url('fonts/TurretRoad-ExtraLight.eot?#iefix') format('embedded-opentype'),
+      url('fonts/TurretRoad-ExtraLight.woff2') format('woff2'),
+      url('fonts/TurretRoad-ExtraLight.woff') format('woff'),
+      url('fonts/TurretRoad-ExtraLight.svg#TurretRoad-ExtraLight') format('svg');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Turret Road';
+  src: url('fonts/TurretRoad-Light.eot');
+  src: url('fonts/TurretRoad-Light.eot?#iefix') format('embedded-opentype'),
+      url('fonts/TurretRoad-Light.woff2') format('woff2'),
+      url('fonts/TurretRoad-Light.woff') format('woff'),
+      url('fonts/TurretRoad-Light.svg#TurretRoad-Light') format('svg');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Turret Road';
+  src: url('fonts/TurretRoad-ExtraBold.eot');
+  src: url('fonts/TurretRoad-ExtraBold.eot?#iefix') format('embedded-opentype'),
+      url('fonts/TurretRoad-ExtraBold.woff2') format('woff2'),
+      url('fonts/TurretRoad-ExtraBold.woff') format('woff'),
+      url('fonts/TurretRoad-ExtraBold.svg#TurretRoad-ExtraBold') format('svg');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+
+/* Example of using the font */
+.wp-block-site-title {
+  font-family: 'Envoyer-Outline', sans-serif;
+}
+
+.main-tagline {
+  font-family: 'Turret Road', sans-serif;
+  font-weight: bold;
 }
