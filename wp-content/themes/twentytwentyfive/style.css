@@ -66,6 +66,7 @@ footer {
   flex-shrink: 0;
   width: 100%;
   font-size: 12px;
+  font-family: 'Electrolize';
 }
 footer p {
   margin: 0;
@@ -89,20 +90,33 @@ footer p {
   }
 }
 
+/* main title */
+.wp-block-site-title {
+  font-family: 'Envoyer-Outline', sans-serif;
+  font-size: larger;
+}
+
+
 .tagline-container {
   /* height: 100vh; */
   position: absolute;
   top: 55vh;
   right: 2vw;
   height: 20vh;
-  width: 50vw;
+  width: 100vw;
   /* border: 1px solid red; */
   text-align: center;
 
   display: flex;               /* Use flexbox for centering */
-  justify-content: center;     /* Center horizontally */
+  justify-content: right;     /* Center horizontally */
   align-items: center;
   text-align: center;
+}
+
+.main-tagline {
+  font-family: 'Turret Road', sans-serif;
+  font-size: 45px;
+
 }
 
 .main-description-container {
@@ -121,13 +135,16 @@ footer p {
 
 }
 
+
+
+.main-description-title {
+  font-family: Orbitron;
+}
 .main-description {
+  font-family: Electrolize;
   font-size: 16px;
 }
 
-.main-description-title {
-
-}
 
 
 @font-face {
@@ -137,7 +154,7 @@ footer p {
       url('fonts/Envoyer-Regular.svg#Envoyer-Regular') format('svg');
   font-weight: normal;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -147,7 +164,7 @@ footer p {
       url('fonts/Envoyer-Outline.svg#Envoyer-Outline') format('svg');
   font-weight: normal;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 
@@ -160,7 +177,7 @@ footer p {
       url('fonts/TurretRoad-Medium.svg#TurretRoad-Medium') format('svg');
   font-weight: 500;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -172,7 +189,7 @@ footer p {
       url('fonts/TurretRoad-Regular.svg#TurretRoad-Regular') format('svg');
   font-weight: normal;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -184,7 +201,7 @@ footer p {
       url('fonts/TurretRoad-Bold.svg#TurretRoad-Bold') format('svg');
   font-weight: bold;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -196,7 +213,7 @@ footer p {
       url('fonts/TurretRoad-ExtraLight.svg#TurretRoad-ExtraLight') format('svg');
   font-weight: 200;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -208,7 +225,7 @@ footer p {
       url('fonts/TurretRoad-Light.svg#TurretRoad-Light') format('svg');
   font-weight: 300;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -220,17 +237,67 @@ footer p {
       url('fonts/TurretRoad-ExtraBold.svg#TurretRoad-ExtraBold') format('svg');
   font-weight: bold;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
-
-
-/* Example of using the font */
-.wp-block-site-title {
-  font-family: 'Envoyer-Outline', sans-serif;
+@font-face {
+  font-family: 'Electrolize';
+  src: url('fonts/Electrolize-Regular.woff2') format('woff2'),
+      url('fonts/Electrolize-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+@font-face {
+  font-family: 'Orbitron';
+  src: url('fonts/Orbitron-Regular.woff2') format('woff2'),
+      url('fonts/Orbitron-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
 }
 
-.main-tagline {
-  font-family: 'Turret Road', sans-serif;
+@font-face {
+  font-family: 'Orbitron';
+  src: url('fonts/Orbitron-ExtraBold.woff2') format('woff2'),
+      url('fonts/Orbitron-ExtraBold.woff') format('woff');
   font-weight: bold;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Orbitron';
+  src: url('fonts/Orbitron-Black.woff2') format('woff2'),
+      url('fonts/Orbitron-Black.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Orbitron';
+  src: url('fonts/Orbitron-SemiBold.woff2') format('woff2'),
+      url('fonts/Orbitron-SemiBold.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Orbitron';
+  src: url('fonts/Orbitron-Bold.woff2') format('woff2'),
+      url('fonts/Orbitron-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Orbitron';
+  src: url('fonts/Orbitron-Medium.woff2') format('woff2'),
+      url('fonts/Orbitron-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: block;
 }
