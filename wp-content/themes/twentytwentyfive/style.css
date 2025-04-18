@@ -6,7 +6,7 @@
 html, body {
   margin: 0;
   padding: 0;
-  height: 100%;
+  min-height: 100vh;
 }
 
 body {
@@ -17,6 +17,10 @@ body {
   background-color: #000000; /* Background color */
   color: #ffffff; /* Text color */
   overflow-x: hidden;  /* Prevent horizontal scrolling */
+}
+
+div {
+  border: 1px solid red;
 }
 
 /* 2. Model Canvas Styling */
@@ -55,13 +59,11 @@ body {
 /* 4. Footer Styling */
 footer {
   position: relative;
-  /* bottom: -80vh; */
-  z-index: 1; /* Ensure footer is above the canvas */
-  background-color: rgba(0, 0, 0, 0); /* Footer background color */
-  color: white;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0);
+  /* color: white; */
   padding: 20px;
   text-align: center;
-  /* margin-top: 80px; */
   margin-bottom: 0;
   flex-shrink: 0;
   width: 100%;
@@ -75,73 +77,49 @@ footer p {
 /* 5. Content Wrapper */
 .content-wrapper {
   position: relative;
-  z-index: 1;
-  overflow-y: auto;  /* Enable scrolling */
-  height: 145vh; /* Ensure it takes up the full viewport height */
+  /* z-index: 1; */
+  overflow-y: auto;
+  height: 200vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* border: 3px solid red; */
 }
-
-@supports (height: 100dvh) {
-  .tagline-container {
-    height: 100dvh;
-  }
-}
-
-/* main title */
 .wp-block-site-title {
   font-family: 'Envoyer-Outline', sans-serif;
   font-size: larger;
 }
-
-
-.tagline-container {
-  /* height: 100vh; */
-  position: absolute;
-  top: 55vh;
-  right: 2vw;
-  height: 20vh;
-  width: 100vw;
-  /* border: 1px solid red; */
-  text-align: center;
-
-  display: flex;               /* Use flexbox for centering */
-  justify-content: right;     /* Center horizontally */
-  align-items: center;
-  text-align: center;
-}
-
 .main-tagline {
   font-family: 'Turret Road', sans-serif;
   font-size: 45px;
 
 }
-
+.tagline-container {
+  /* height: 100vh; */
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  text-align: center;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  text-align: center;
+}
 .main-description-container {
-  position: absolute;
-  left: 10vw;
-  bottom: 10vh;
+  position: relative;
+  height: 100vh;
   width: 45vw;
-  height: 40vh;
-  /* border: 1px solid red; */
-
   display: flex;
   flex-direction: column;
   justify-content: center;     /* Center horizontally */
   align-items: left;
   text-align: left;
-
 }
-
-
 
 .main-description-title {
-  font-family: Orbitron;
+  font-family: 'Orbitron';
 }
 .main-description {
-  font-family: Electrolize;
+  font-family: 'Electrolize';
   font-size: 16px;
 }
 
