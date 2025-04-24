@@ -3,7 +3,7 @@
 
 
          <div class="footer-bottom">
-            <p>&copy; <?php echo date("Y"); ?> EthereaWeb. All Rights Reserved.</p>
+            <p>&copy; <php echo date("Y"); ?> EthereaWeb. All Rights Reserved.</p>
     </div>
 </footer>
 
