@@ -64,7 +64,13 @@ function init() {
 function updateCanvasSize() {
     // const canvas = document.getElementById('modelCanvas');
     const width = window.innerWidth;
-    const height = window.innerHeight * 2;
+    // const height = window.innerHeight * 2.1;
+    const height = document.documentElement.scrollHeight;
+
+
+    // if (isMobile) {
+    //     height += window.innerHeight
+    // }
 
     if (renderer && composer) {
         renderer.setSize(width, height);

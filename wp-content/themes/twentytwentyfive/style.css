@@ -2,27 +2,21 @@
 *, *::before, *::after {
   box-sizing: border-box;
 }
-
 html, body {
   margin: 0;
   padding: 0;
-  /* min-height: 100vh; */
 }
-
 body {
   margin: 0;
   padding: 0;
   line-height: 1.5;
-  font-family: Arial, sans-serif;
+  font-family: 'Arial', sans-serif;
   background-color: #000000; /* Background color */
   color: #ffffff; /* Text color */
   overflow-x: hidden;  /* Prevent horizontal scrolling */
-
-  /* height: calc(var(--vh, 1vh) * 200); */
 }
-
-div {
-  border: 1px solid red;
+.home-content {
+  /* height: 1; */
 }
 
 /* 2. Model Canvas Styling */
@@ -31,21 +25,15 @@ div {
   top: 0;              /* Align to the top of the page */
   left: 0;             /* Align to the left of the page */
   width: 100vw;
-  /* height: calc(var(--vh, 1vh) * 200); */
   z-index: -1;         /* Place it behind other content */
   touch-action: none;  /* Disable touch interaction */
   pointer-events: none; /* Disable canvas interaction */
   overscroll-behavior: none;
-  border: 1px solid blue;
 }
 
-/* @supports (height: 100dvh) {
-  #modelCanvas {
-    height: calc(var(--dvh, 1vh) * 200);
-  }
-} */
-
-/* 3. Navigation Styling */
+.wp-block-site-title {
+  text-decoration: none !important;
+}
 .nav {
   position: absolute;   /* Position navigation on top of the model */
   top: 0;
@@ -55,17 +43,87 @@ div {
   background: rgba(0, 0, 0, 0.0); /* Transparent background */
   padding: 20px;
   text-align: center;
-  color: white;
   font-size: 20px;
 }
+.content-wrapper {
+  position: relative;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+}
+.wp-block-site-title {
+  font-family: 'Envoyer-Outline', sans-serif;
+  font-size: larger;
+}
+.main-tagline {
+  font-family: 'Turret Road', sans-serif;
+  font-size: 45px;
+  text-align: right;
+  padding-right: 15px;
+
+}
+.tagline-container {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: end;
+  padding-bottom: 70px;
+}
+.main-description-container {
+  position: relative;
+  /* height: 92vh; */
+  padding: 0px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+  text-align: justify;
+}
+
+.main-description-title {
+  font-family: 'Orbitron';
+}
+.main-description {
+  font-family: 'Electrolize';
+  font-size: 16px;
+}
+
+.main-description-list {
+  font-family: 'Electrolize';
+  font-size: 16px;
+}
+
+ul.main-description-list {
+  padding-left: 5px !important;
+  padding-right: 10px !important;
+}
+
+ul.main-description-list li {
+  list-style: none;
+  position: relative;
+  padding-left: 25px;
+}
+
+ul.main-description-list li::before {
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  content: "\f753"; /* check icon */
+  position: absolute;
+  left: 0;
+  top: 0.2em;
+  /* color: #007bff; */
+}
+
 
 /* 4. Footer Styling */
 footer {
   position: relative;
   z-index: 1;
   background-color: rgba(0, 0, 0, 0);
-  /* color: white; */
-  padding: 20px;
+  padding: 5px;
   text-align: center;
   margin-bottom: 0;
   flex-shrink: 0;
@@ -77,54 +135,27 @@ footer p {
   margin: 0;
 }
 
-/* 5. Content Wrapper */
-.content-wrapper {
-  position: relative;
-  /* z-index: 1; */
-  overflow-y: auto;
-  /* height: 200vh; */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.wp-block-site-title {
-  font-family: 'Envoyer-Outline', sans-serif;
-  font-size: larger;
-}
-.main-tagline {
-  font-family: 'Turret Road', sans-serif;
-  font-size: 45px;
-
-}
-.tagline-container {
-  /* height: 100vh; */
-  position: relative;
-  height: 88vh;
-  width: 100vw;
-  text-align: center;
-  display: flex;
-  justify-content: right;
-  align-items: center;
-  text-align: center;
-}
-.main-description-container {
-  position: relative;
-  height: 80vh;
-  width: 45vw;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;     /* Center horizontally */
-  align-items: left;
-  text-align: left;
+button.wp-block-navigation__responsive-container-open[aria-label="Open menu"] {
+  /* Your styles here */
+  display: none;
 }
 
-.main-description-title {
-  font-family: 'Orbitron';
+
+
+
+
+
+@media (min-width: 768px) {
+  /* Styles for tablets and larger */
+  .tagline-container {
+    height: 100vh;
+  }
+  .main-description-container {
+    height: calc(var(--vh, 1vh) * 100 - 60px)
+  }
 }
-.main-description {
-  font-family: 'Electrolize';
-  font-size: 16px;
-}
+
+
 
 
 
