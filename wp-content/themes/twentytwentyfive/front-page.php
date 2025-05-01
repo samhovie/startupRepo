@@ -12,7 +12,7 @@ get_header(); // Includes the header
     <div class="content-wrapper">
 
     <div class="tagline-container">
-        <h2 class="main-tagline">New Dimensions in Web Design</h2>
+        <h2 class="main-tagline">Prepare for Liftoff</h2>
     </div>
 
     <div class="main-description-container">

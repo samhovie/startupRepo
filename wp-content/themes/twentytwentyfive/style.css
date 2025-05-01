@@ -15,9 +15,6 @@ body {
   color: #ffffff; /* Text color */
   overflow-x: hidden;  /* Prevent horizontal scrolling */
 }
-.home-content {
-  /* height: 1; */
-}
 
 /* 2. Model Canvas Styling */
 #modelCanvas {
@@ -62,6 +59,7 @@ body {
   font-size: 45px;
   text-align: right;
   padding-right: 15px;
+  font-weight: 500;
 
 }
 .tagline-container {
@@ -70,7 +68,9 @@ body {
   width: 100vw;
   display: flex;
   align-items: end;
+  justify-content: right;
   padding-bottom: 70px;
+
 }
 .main-description-container {
   position: relative;
@@ -90,11 +90,11 @@ body {
 
 .main-description {
   font-family: 'Oxanium';
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .main-description-list {
-  font-family: 'Electrolize';
+  font-family: 'Space Mono';
   font-size: 16px;
 }
 
@@ -151,6 +151,7 @@ button.wp-block-navigation__responsive-container-open[aria-label="Open menu"] {
   /* Styles for tablets and larger */
   .tagline-container {
     height: 100vh;
+    margin-right: 10vw;
   }
   .main-description-container {
     height: calc(var(--vh, 1vh) * 100 - 60px)
@@ -322,7 +323,7 @@ button.wp-block-navigation__responsive-container-open[aria-label="Open menu"] {
       url('assets/fonts/space-mono/SpaceMono-Bold.woff') format('woff');
   font-weight: bold;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -331,7 +332,7 @@ button.wp-block-navigation__responsive-container-open[aria-label="Open menu"] {
       url('assets/fonts/space-mono/SpaceMono-BoldItalic.woff') format('woff');
   font-weight: bold;
   font-style: italic;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -340,7 +341,7 @@ button.wp-block-navigation__responsive-container-open[aria-label="Open menu"] {
       url('assets/fonts/space-mono/SpaceMono-Regular.woff') format('woff');
   font-weight: normal;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -349,7 +350,7 @@ button.wp-block-navigation__responsive-container-open[aria-label="Open menu"] {
       url('assets/fonts/space-mono/SpaceMono-Italic.woff') format('woff');
   font-weight: normal;
   font-style: italic;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -358,7 +359,7 @@ button.wp-block-navigation__responsive-container-open[aria-label="Open menu"] {
       url('assets/fonts/oxanium/Oxanium-ExtraLight.woff') format('woff');
   font-weight: 200;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -367,7 +368,7 @@ button.wp-block-navigation__responsive-container-open[aria-label="Open menu"] {
       url('assets/fonts/oxanium/Oxanium-ExtraLight.woff') format('woff');
   font-weight: 200;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -376,7 +377,7 @@ button.wp-block-navigation__responsive-container-open[aria-label="Open menu"] {
       url('assets/fonts/oxanium/Oxanium-Light.woff') format('woff');
   font-weight: 300;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -385,7 +386,7 @@ button.wp-block-navigation__responsive-container-open[aria-label="Open menu"] {
       url('assets/fonts/oxanium/Oxanium-Regular.woff') format('woff');
   font-weight: normal;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -394,7 +395,7 @@ button.wp-block-navigation__responsive-container-open[aria-label="Open menu"] {
       url('assets/fonts/oxanium/Oxanium-Medium.woff') format('woff');
   font-weight: 500;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -403,7 +404,7 @@ button.wp-block-navigation__responsive-container-open[aria-label="Open menu"] {
       url('assets/fonts/oxanium/Oxanium-Bold.woff') format('woff');
   font-weight: bold;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -412,7 +413,7 @@ button.wp-block-navigation__responsive-container-open[aria-label="Open menu"] {
       url('assets/fonts/oxanium/Oxanium-ExtraBold.woff') format('woff');
   font-weight: bold;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
 }
 
 @font-face {
@@ -421,5 +422,14 @@ button.wp-block-navigation__responsive-container-open[aria-label="Open menu"] {
       url('assets/fonts/oxanium/Oxanium-SemiBold.woff') format('woff');
   font-weight: 600;
   font-style: normal;
-  font-display: swap;
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'KC Found X NeverMade';
+  src: url('assets/fonts/kcfound/KCFoundXNeverMadeRegular.woff2') format('woff2'),
+      url('assets/fonts/kcfound/KCFoundXNeverMadeRegular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
 }
