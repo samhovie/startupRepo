@@ -38,6 +38,10 @@ get_header(); // Includes the header
                 you, not a template.</li>
             <li>No more no-code limitations — Create a true digital presence that's as
                 dynamic and unique as your business.</li>
+            <li>Stop overpaying for storage — We set up low-cost, scalable storage
+                solutions that grow with your business without surprise pricing jumps.
+                Say goodbye to bloated subscriptions and hello to efficient, flexible
+                data storage.</li>
         </ul>
 
     </div>
